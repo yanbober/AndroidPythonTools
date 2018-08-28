@@ -14,7 +14,7 @@ import os
 def image2webp(inputFile, outputFile):
     try:
         image = Image.open(inputFile)
-        if image.mode != 'RGBA' or image.mode != 'RGB':
+        if image.mode != 'RGBA' and image.mode != 'RGB':
             image = image.convert('RGBA')
 
         image.save(outputFile, 'WEBP')
