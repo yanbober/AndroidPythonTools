@@ -11,10 +11,10 @@ class JavaPackageImportRef:
 
 
     def __append_result_line(self, content, need_tab):
-        with open(self.__result_file, 'w+') as f:
+        with open(self.__result_file, 'a+') as f:
             if need_tab:
                 f.write('\t'+content+'\n')
-                ++self.__total_used_files
+                self.__total_used_files = self.__total_used_files + 1
                 print('\t'+content)
             else:
                 f.write('\n'+content + '\n')
@@ -36,8 +36,9 @@ class JavaPackageImportRef:
         for dir_path, dirs, files in os.walk(target_dir):
             for name in files:
                 file_name = os.path.join(dir_path, name)
-                if self.__is_contains_in_file(file_name, package):
-                    self.__append_result_line(file_name, True)
+                if file_name.endswith('.java'):
+                    if self.__is_contains_in_file(file_name, package):
+                        self.__append_result_line(file_name, True)
 
 
     def __path_2_package(self, package_root_dir, path):
@@ -50,6 +51,7 @@ class JavaPackageImportRef:
 
 
     def start(self, package_root_dir, used_dir):
+        os.remove(self.__result_file)
         for package_dir, dirs, files in os.walk(package_root_dir, topdown=False):
             for name in dirs:
                 dir_path = os.path.join(package_dir, name)
@@ -62,4 +64,5 @@ class JavaPackageImportRef:
 
 if __name__ == '__main__':
     find_process = JavaPackageImportRef()
-    find_process.start('.', '.')
+    find_process.start('./moduleA/src', './src')
+    print('start....')
