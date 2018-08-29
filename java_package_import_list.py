@@ -52,6 +52,7 @@ class JavaPackageImportRef:
 
     def start(self, package_root_dir, used_dir):
         os.remove(self.__result_file)
+		self.__total_used_files = 0
         for package_dir, dirs, files in os.walk(package_root_dir, topdown=False):
             for name in dirs:
                 dir_path = os.path.join(package_dir, name)
