@@ -22,13 +22,11 @@ class JavaPackageImportRef:
 
 
     def __is_contains_in_file(self, file, match):
-        try:
-            with open(file, "r") as fp:
+        if os.path.exists(file):
+            with open(file, "r", encoding='UTF-8') as fp:
                 content = fp.read()
                 if (content.find(match) != -1):
                     return True
-        except Exception:
-            return False
         return False
 
 
